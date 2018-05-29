@@ -52,7 +52,7 @@ class FeedCell: UICollectionViewCell {
     }()
     
     @objc func handleShareByEmail() {
-        print("handle share by email")
+        feedController?.sendPictureByEmail(flickrImageView: flickrImageView)
     }
     
     let flickrImageView : ImageViewWithActivityIndicator = {

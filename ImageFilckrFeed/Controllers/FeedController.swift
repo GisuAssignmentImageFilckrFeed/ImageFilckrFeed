@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 /*
  Requirements
@@ -87,7 +88,7 @@ class FeedController: UIViewController {
 
 // feed cell
 
-extension FeedController {
+extension FeedController: MFMailComposeViewControllerDelegate {
     func openSelectedImageInbrowser(urlString: String) {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -98,6 +99,17 @@ extension FeedController {
         if let image = flickrImageView.image {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             alertMessage(message: "Saved selected image to Photo Gallery", rootController: self)
+        }
+    }
+    
+    func sendPictureByEmail(flickrImageView : ImageViewWithActivityIndicator) {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self;
+            mail.setMessageBody("Write a message here", isHTML: false)
+            let imageData: Data = UIImagePNGRepresentation(flickrImageView.image!)!
+            mail.addAttachmentData(imageData, mimeType: "image/png", fileName: "imageName.png")
+            self.present(mail, animated: true, completion: nil)
         }
     }
 }
