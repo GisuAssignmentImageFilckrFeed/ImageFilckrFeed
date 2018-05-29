@@ -19,6 +19,7 @@ extension UIImageView {
         
         //check cache for image first
         if let cachedImage = imageCache.object(forKey: (urlString as NSString)){
+            self.deleteActivityIndicator()
             self.image = cachedImage
             return
         }
@@ -37,11 +38,19 @@ extension UIImageView {
             DispatchQueue.main.async {
                 if let downloadedImage = UIImage(data: data!), let compressedImageData = UIImageJPEGRepresentation(downloadedImage, 0.1), let compressedImage = UIImage(data: compressedImageData) {
                     imageCache.setObject( compressedImage, forKey: (urlString as NSString))
+                    self.deleteActivityIndicator()
                     self.image = compressedImage
                 }
             }
         }
         dataTask.resume()
+    }
+    
+    func deleteActivityIndicator() {
+        if let imageView = self as? ImageViewWithActivityIndicator {
+            imageView.activityIndicator.stopAnimating()
+            imageView.activityIndicator.removeFromSuperview()
+        }
     }
 }
 
@@ -55,6 +64,14 @@ extension UIView {
         }
         
         return "unidentified"
+    }
+    
+    func setupActivityIndicator<T>(cell: T) {
+        if let flickrImageView = (cell as? FeedCell)?.flickrImageView {
+            flickrImageView.addSubview(flickrImageView.activityIndicator)
+            flickrImageView.activityIndicator.centerYAnchor.constraint(equalTo: flickrImageView.centerYAnchor).isActive = true
+            flickrImageView.activityIndicator.centerXAnchor.constraint(equalTo: flickrImageView.centerXAnchor).isActive = true
+        }
     }
 }
 

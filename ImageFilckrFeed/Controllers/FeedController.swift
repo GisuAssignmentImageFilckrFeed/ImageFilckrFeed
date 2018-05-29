@@ -31,19 +31,46 @@ class FeedController: UIViewController {
     var currentElementName  : String?
     var feeds               : [Feed]?
     
+    lazy var sortMethodSegmentedControl : UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["date Taken", "date Published"])
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.tintColor = UIColor.white
+        sc.selectedSegmentIndex = 0
+        sc.addTarget(self, action: #selector(handleSortChange), for: .valueChanged)
+        
+        return sc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         feeds = [Feed]()
+        
+        setupNavigationBar()
+        
         setupMainView()
         
-        // fetch data
         fetchData()
+    }
+   
+    @objc func handleSortChange() {
+        print("sort by selected method")
+    }
+    
+    func setupNavigationBar() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(named: "magnifier")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleSearchByTag))
+        rightBarButton.tintColor = .white
+        
+        navigationItem.titleView = sortMethodSegmentedControl
+        navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    @objc func handleSearchByTag() {
+        print("Search by tag")
     }
     
     func setupMainView() {
         mainView = MainView()
         mainView?.feedController = self
-        
         
         view.addSubview(mainView!)
         mainView?.translatesAutoresizingMaskIntoConstraints = false
@@ -55,144 +82,9 @@ class FeedController: UIViewController {
         ].forEach{ $0?.isActive = true }
     }
     
-    
     func fetchData() {
-        if let url = URL(string: "https://api.flickr.com/services/feeds/photos_public.gne") {
-            if let parser = XMLParser(contentsOf: url) {
-                // delegation to ViewController
-                parser.delegate = self
-                parser.parse()
-            }
-        }
+        let xmlLauncher = XMLLauncher()
+        xmlLauncher.feedController = self
+        xmlLauncher.createXMLParser(urlString: "https://api.flickr.com/services/feeds/photos_public.gne")
     }
 }
-
-// XML parser
-
-extension FeedController: XMLParserDelegate {
-    public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-        
-        currentElementName = elementName
-        
-        if elementName == "entry" {
-            TempFeed.title                  = ""
-            TempFeed.id                     = ""
-            TempFeed.publishedDate          = ""
-            TempFeed.imageUrlString         = ""
-            TempFeed.updatedDate            = ""
-            TempFeed.flickrDate             = ""
-            TempFeed.dateTaken              = ""
-            TempFeed.imageUrlString         = ""
-        }
-        
-        // get image url
-        if elementName == "link" {
-            if let rel = attributeDict["rel"], rel == "enclosure" , let imageLink = attributeDict["href"]{
-                TempFeed.imageUrlString = imageLink
-            }
-        }
-        
-        //fetch author
-        if elementName == "author" {
-            TempAuthor.name                      = ""
-            TempAuthor.urlString                 = ""
-            TempAuthor.id                        = ""
-            TempAuthor.profileImageUrlString     = ""
-        }
-        
-        
-    }
-    
-    public func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
-        if data.count != 0 {
-            switch currentElementName {
-            case "title":
-                TempFeed.title = data
-                fallthrough
-            case "id":
-                TempFeed.id = data
-                fallthrough
-            case "published":
-                TempFeed.publishedDate = data
-                fallthrough
-            case "updated":
-                TempFeed.updatedDate = data
-                fallthrough
-            case "flickr:date_taken":
-                TempFeed.flickrDate = data
-                fallthrough
-            case "dc:date.Taken":
-                TempFeed.dateTaken = data
-                fallthrough
-            case "name":
-                TempAuthor.name = data
-                fallthrough
-            case "uri":
-                TempAuthor.urlString = data
-                fallthrough
-            case "flickr:nsid":
-                TempAuthor.id = data
-                fallthrough
-            case "flickr:buddyicon":
-                TempAuthor.profileImageUrlString = data
-                fallthrough
-            default: break
-            }
-        }
-    }
-    
-    public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "entry" {
-            let feed = Feed()
-            let author = Author()
-            feed.author = author
-            feeds?.append(feed)
-        }
-    }
-}
-
-
-struct TempFeed {
-    static var title            : String = ""
-    static var id               : String = ""
-    static var imageUrlString   : String = ""
-    static var publishedDate    : String = ""
-    static var updatedDate      : String = ""
-    static var flickrDate       : String = ""
-    static var dateTaken        : String = ""
-
-}
-
-struct TempAuthor {
-    static var name                     : String = ""
-    static var urlString                : String = ""
-    static var id                       : String = ""
-    static var profileImageUrlString    : String = ""
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

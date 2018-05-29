@@ -8,13 +8,21 @@
 
 import UIKit
 
+class ImageViewWithActivityIndicator: UIImageView {
+    let activityIndicator: UIActivityIndicatorView = {
+        let ai = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        ai.startAnimating()
+        ai.translatesAutoresizingMaskIntoConstraints = false
+        
+        return ai
+    }()
+}
+
 class MainView: UIView {
-    
     weak var feedController : FeedController?
-    
     let feedCell = "feedCell"
     
-    lazy var imageCollectionView : UICollectionView = {
+    lazy var feedCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.dataSource = self
@@ -27,13 +35,13 @@ class MainView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(imageCollectionView)
-        imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(feedCollectionView)
+        feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
         [
-            imageCollectionView.topAnchor.constraint(equalTo: topAnchor),
-            imageCollectionView.leftAnchor.constraint(equalTo: leftAnchor),
-            imageCollectionView.widthAnchor.constraint(equalTo: widthAnchor),
-            imageCollectionView.heightAnchor.constraint(equalTo: heightAnchor)
+            feedCollectionView.topAnchor.constraint(equalTo: topAnchor),
+            feedCollectionView.leftAnchor.constraint(equalTo: leftAnchor),
+            feedCollectionView.widthAnchor.constraint(equalTo: widthAnchor),
+            feedCollectionView.heightAnchor.constraint(equalTo: heightAnchor)
         ].forEach{ $0.isActive = true }
         
     }
@@ -50,14 +58,20 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: feedCell, for: indexPath) as! FeedCell
+        setupCell(cell: cell, indexPath: indexPath)
+        setupActivityIndicator(cell: cell)
+        
+        return cell
+    }
+    
+    func setupCell(cell: FeedCell, indexPath: IndexPath) {
         cell.profileImageView.layer.cornerRadius = self.frame.width * 0.25 / 4
         cell.flickrImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].imageUrlString)!)
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].author?.profileImageUrlString)!)
         cell.authorLabel.text = feedController?.feeds![indexPath.item].author?.name
+        cell.authorLabel.sizeToFit()
         print((feedController?.feeds![indexPath.item].publishedDate)!)
         cell.dateLabel.text = formatDate(dateString: (feedController?.feeds![indexPath.item].flickrDate)!)
-        
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -10,8 +10,46 @@ import UIKit
 
 class FeedCell: UICollectionViewCell {
     
-    let flickrImageView : UIImageView = {
-        let imageView = UIImageView()
+    lazy var saveButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "download")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(handleDownloadImage), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    @objc func handleDownloadImage() {
+        print("save image to photo gallery")
+    }
+    
+    lazy var openBroswerButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "browser"), for: .normal)
+        button.addTarget(self, action: #selector(handleOpenInbroswer), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    @objc func handleOpenInbroswer() {
+        print("open image url in browser")
+    }
+    
+    lazy var shareButton : UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "share")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(handleShareByEmail), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    @objc func handleShareByEmail() {
+        print("handle share by email")
+    }
+    
+    let flickrImageView : ImageViewWithActivityIndicator = {
+        let imageView = ImageViewWithActivityIndicator()
         imageView.backgroundColor = .gray
         imageView.image = UIImage(named: "moviePost2")
         
@@ -49,9 +87,9 @@ class FeedCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
         
+        
         return label
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,6 +101,33 @@ class FeedCell: UICollectionViewCell {
             flickrImageView.leftAnchor.constraint(equalTo: leftAnchor),
             flickrImageView.widthAnchor.constraint(equalTo: widthAnchor),
             flickrImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75)
+        ].forEach{ $0.isActive = true }
+        
+        addSubview(saveButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        [
+            saveButton.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            saveButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
+            saveButton.widthAnchor.constraint(equalToConstant: 24),
+            saveButton.heightAnchor.constraint(equalToConstant: 24)
+        ].forEach{ $0.isActive = true }
+        
+        addSubview(openBroswerButton)
+        openBroswerButton.translatesAutoresizingMaskIntoConstraints = false
+        [
+            openBroswerButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 8),
+            openBroswerButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -14),
+            openBroswerButton.widthAnchor.constraint(equalToConstant: 24),
+            openBroswerButton.heightAnchor.constraint(equalToConstant: 24)
+        ].forEach{ $0.isActive = true }
+        
+        addSubview(shareButton)
+        shareButton.translatesAutoresizingMaskIntoConstraints = false
+        [
+            shareButton.topAnchor.constraint(equalTo: openBroswerButton.bottomAnchor, constant: 8),
+            shareButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -14),
+            shareButton.widthAnchor.constraint(equalToConstant: 24),
+            shareButton.heightAnchor.constraint(equalToConstant: 24)
         ].forEach{ $0.isActive = true }
         
         addSubview(containerView)
