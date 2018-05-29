@@ -93,6 +93,13 @@ extension FeedController {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
+    
+    func saveImageToLibrary(flickrImageView: ImageViewWithActivityIndicator) {
+        if let image = flickrImageView.image {
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            alertMessage(message: "Saved selected image to Photo Gallery", rootController: self)
+        }
+    }
 }
 
 // navigation bar
