@@ -76,5 +76,25 @@ extension UIView {
     }
 }
 
+extension UIViewController {
+    func alertMessage(message : String, rootController : UIViewController) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alert.view.layer.borderColor = UIColor.red.cgColor
+        alert.view.layer.borderWidth = 1
+        
+        rootController.present(alert, animated: true, completion: nil)
+        //TODO: set timer for dismiss
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(2000)) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+
+
+
+
+
 
 

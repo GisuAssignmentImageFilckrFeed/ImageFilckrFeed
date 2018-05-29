@@ -65,6 +65,8 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func setupCell(cell: FeedCell, indexPath: IndexPath) {
+        cell.feedController = feedController
+        cell.feed = feedController?.feeds![indexPath.item]
         cell.profileImageView.layer.cornerRadius = self.frame.width * 0.25 / 4
         cell.flickrImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].imageUrlString)!)
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].author?.profileImageUrlString)!)
@@ -88,7 +90,6 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-    
 }
 
 
