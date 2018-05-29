@@ -86,7 +86,7 @@ class FeedCell: UICollectionViewCell {
         label.text = "Gisu Kim"
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
-        
+        label.numberOfLines = 2
         
         return label
     }()

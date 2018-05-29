@@ -26,7 +26,6 @@ import UIKit
  */
 
 class FeedController: UIViewController {
-    
     var mainView            : MainView?
     var currentElementName  : String?
     var feeds               : [Feed]?
@@ -41,6 +40,11 @@ class FeedController: UIViewController {
         return sc
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        sortFeedsBy("date taken")
+        mainView?.feedCollectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         feeds = [Feed]()
@@ -51,21 +55,13 @@ class FeedController: UIViewController {
         
         fetchData()
     }
-   
-    @objc func handleSortChange() {
-        print("sort by selected method")
-    }
-    
+
     func setupNavigationBar() {
         let rightBarButton = UIBarButtonItem(image: UIImage(named: "magnifier")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleSearchByTag))
         rightBarButton.tintColor = .white
         
         navigationItem.titleView = sortMethodSegmentedControl
         navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
-    @objc func handleSearchByTag() {
-        print("Search by tag")
     }
     
     func setupMainView() {
@@ -88,3 +84,55 @@ class FeedController: UIViewController {
         xmlLauncher.createXMLParser(urlString: "https://api.flickr.com/services/feeds/photos_public.gne")
     }
 }
+
+// navigation bar
+
+extension FeedController {
+    @objc func handleSortChange() {
+        if sortMethodSegmentedControl.selectedSegmentIndex == 0 {
+            // sort by date taken
+            sortFeedsBy("date taken")
+        } else if sortMethodSegmentedControl.selectedSegmentIndex == 1 {
+            // sort by date published
+            sortFeedsBy("date published")
+        }
+        
+        mainView?.feedCollectionView.reloadData()
+    }
+    
+    func sortFeedsBy(_ sortingMethod: String) {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        if sortingMethod == "date taken" {
+            feeds?.sort(by: { (feed1, feed2) -> Bool in
+                return  dateFormat.date(from: feed1.dateTaken!)! > dateFormat.date(from: feed2.dateTaken!)!
+            })
+        } else {
+            feeds?.sort(by: { (feed1, feed2) -> Bool in
+                return  dateFormat.date(from: feed1.publishedDate!)! > dateFormat.date(from: feed2.publishedDate!)!
+            })
+        }
+    }
+    
+    @objc func handleSearchByTag() {
+        
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
