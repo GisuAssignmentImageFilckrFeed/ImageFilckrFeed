@@ -55,6 +55,7 @@ extension UIImageView {
 }
 
 extension UIView {
+    
     func formatDate(dateString: String) -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
