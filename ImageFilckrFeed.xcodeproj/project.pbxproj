@@ -8,22 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		F604499620BCC374000B2914 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604499520BCC374000B2914 /* AppDelegate.swift */; };
-		F604499820BCC374000B2914 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604499720BCC374000B2914 /* ViewController.swift */; };
+		F604499820BCC374000B2914 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F604499720BCC374000B2914 /* FeedController.swift */; };
 		F604499B20BCC374000B2914 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F604499920BCC374000B2914 /* Main.storyboard */; };
 		F604499E20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F604499C20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld */; };
 		F60449A020BCC375000B2914 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F604499F20BCC375000B2914 /* Assets.xcassets */; };
 		F60449A320BCC375000B2914 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F60449A120BCC375000B2914 /* LaunchScreen.storyboard */; };
+		F63E745A20BCF77E003AB1A2 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E745920BCF77D003AB1A2 /* MainView.swift */; };
+		F63E745C20BD0226003AB1A2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E745B20BD0226003AB1A2 /* Feed.swift */; };
+		F63E745E20BD0693003AB1A2 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E745D20BD0693003AB1A2 /* FeedCell.swift */; };
+		F63E746020BD112D003AB1A2 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E745F20BD112D003AB1A2 /* extension.swift */; };
+		F63E746220BD1204003AB1A2 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E746120BD1204003AB1A2 /* Author.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F604499220BCC374000B2914 /* ImageFilckrFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFilckrFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F604499520BCC374000B2914 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F604499720BCC374000B2914 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F604499720BCC374000B2914 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		F604499A20BCC374000B2914 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F604499D20BCC374000B2914 /* ImageFilckrFeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImageFilckrFeed.xcdatamodel; sourceTree = "<group>"; };
 		F604499F20BCC375000B2914 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F60449A220BCC375000B2914 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F60449A420BCC375000B2914 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F63E745920BCF77D003AB1A2 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		F63E745B20BD0226003AB1A2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		F63E745D20BD0693003AB1A2 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		F63E745F20BD112D003AB1A2 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		F63E746120BD1204003AB1A2 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +66,11 @@
 		F604499420BCC374000B2914 /* ImageFilckrFeed */ = {
 			isa = PBXGroup;
 			children = (
+				F63E745F20BD112D003AB1A2 /* extension.swift */,
+				F63E745820BCF195003AB1A2 /* Models */,
+				F63E745720BCF190003AB1A2 /* Views */,
+				F63E745620BCF189003AB1A2 /* Controllers */,
 				F604499520BCC374000B2914 /* AppDelegate.swift */,
-				F604499720BCC374000B2914 /* ViewController.swift */,
 				F604499920BCC374000B2914 /* Main.storyboard */,
 				F604499F20BCC375000B2914 /* Assets.xcassets */,
 				F60449A120BCC375000B2914 /* LaunchScreen.storyboard */,
@@ -65,6 +78,32 @@
 				F604499C20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld */,
 			);
 			path = ImageFilckrFeed;
+			sourceTree = "<group>";
+		};
+		F63E745620BCF189003AB1A2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F604499720BCC374000B2914 /* FeedController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F63E745720BCF190003AB1A2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F63E745920BCF77D003AB1A2 /* MainView.swift */,
+				F63E745D20BD0693003AB1A2 /* FeedCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F63E745820BCF195003AB1A2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F63E745B20BD0226003AB1A2 /* Feed.swift */,
+				F63E746120BD1204003AB1A2 /* Author.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F604499820BCC374000B2914 /* ViewController.swift in Sources */,
+				F604499820BCC374000B2914 /* FeedController.swift in Sources */,
+				F63E746020BD112D003AB1A2 /* extension.swift in Sources */,
+				F63E746220BD1204003AB1A2 /* Author.swift in Sources */,
+				F63E745C20BD0226003AB1A2 /* Feed.swift in Sources */,
+				F63E745A20BCF77E003AB1A2 /* MainView.swift in Sources */,
 				F604499E20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld in Sources */,
 				F604499620BCC374000B2914 /* AppDelegate.swift in Sources */,
+				F63E745E20BD0693003AB1A2 /* FeedCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
