@@ -85,6 +85,16 @@ class FeedController: UIViewController {
     }
 }
 
+// feed cell
+
+extension FeedController {
+    func openSelectedImageInbrowser(urlString: String) {
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+}
+
 // navigation bar
 
 extension FeedController {

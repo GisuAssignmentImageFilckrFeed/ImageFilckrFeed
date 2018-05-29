@@ -10,6 +10,9 @@ import UIKit
 
 class FeedCell: UICollectionViewCell {
     
+    weak var feedController : FeedController?
+    var feed : Feed?
+    
     lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "download")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -20,7 +23,7 @@ class FeedCell: UICollectionViewCell {
     }()
     
     @objc func handleDownloadImage() {
-        print("save image to photo gallery")
+        print("save image to photo gallery")    
     }
     
     lazy var openBroswerButton : UIButton = {
@@ -32,7 +35,11 @@ class FeedCell: UICollectionViewCell {
     }()
     
     @objc func handleOpenInbroswer() {
-        print("open image url in browser")
+        if let urlString = feed?.imageUrlString {
+            feedController?.openSelectedImageInbrowser(urlString: urlString)
+        } else {
+            feedController?.alertMessage(message: "Cannot find the selected Url", rootController: feedController!)
+        }
     }
     
     lazy var shareButton : UIButton = {
