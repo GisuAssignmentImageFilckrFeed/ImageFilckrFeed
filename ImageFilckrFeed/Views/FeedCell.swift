@@ -23,7 +23,7 @@ class FeedCell: UICollectionViewCell {
     }()
     
     @objc func handleDownloadImage() {
-        print("save image to photo gallery")    
+        feedController?.saveImageToLibrary(flickrImageView: flickrImageView)
     }
     
     lazy var openBroswerButton : UIButton = {
@@ -52,7 +52,7 @@ class FeedCell: UICollectionViewCell {
     }()
     
     @objc func handleShareByEmail() {
-        print("handle share by email")
+        feedController?.sendPictureByEmail(flickrImageView: flickrImageView)
     }
     
     let flickrImageView : ImageViewWithActivityIndicator = {

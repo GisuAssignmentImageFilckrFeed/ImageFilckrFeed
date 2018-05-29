@@ -70,8 +70,7 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.profileImageView.layer.cornerRadius = self.frame.width * 0.25 / 4
         cell.flickrImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].imageUrlString)!)
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].author?.profileImageUrlString)!)
-        cell.authorLabel.text = feedController?.feeds![indexPath.item].author?.name 
-        print((feedController?.feeds![indexPath.item].publishedDate)!)
+        cell.authorLabel.text = feedController?.feeds![indexPath.item].author?.name
         cell.dateLabel.text = formatDate(dateString: (feedController?.feeds![indexPath.item].flickrDate)!)
     }
     
