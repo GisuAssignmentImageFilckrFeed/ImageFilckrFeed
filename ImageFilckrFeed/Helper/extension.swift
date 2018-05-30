@@ -55,7 +55,6 @@ extension UIImageView {
 }
 
 extension UIView {
-    
     func formatDate(dateString: String) -> String {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -94,6 +93,10 @@ extension UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
             alert.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func estimateWidthAndHeightFor(text: String, attributes: [NSAttributedStringKey: Any]) -> CGSize {
+        return (text as NSString).size(withAttributes: attributes)
     }
 }
 

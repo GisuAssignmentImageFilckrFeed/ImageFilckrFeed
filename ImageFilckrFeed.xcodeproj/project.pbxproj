@@ -20,6 +20,9 @@
 		F63E746220BD1204003AB1A2 /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E746120BD1204003AB1A2 /* Author.swift */; };
 		F63E746420BDA03C003AB1A2 /* ModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E746320BDA03C003AB1A2 /* ModelHelper.swift */; };
 		F63E746620BDA73D003AB1A2 /* XMLParer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63E746520BDA73D003AB1A2 /* XMLParer.swift */; };
+		F64FAA5020BE07FE00CE12B3 /* FeedController_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FAA4F20BE07FE00CE12B3 /* FeedController_search.swift */; };
+		F64FAA5220BE40DC00CE12B3 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FAA5120BE40DC00CE12B3 /* TagCell.swift */; };
+		F64FAA5420BEEE3800CE12B3 /* ImageLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FAA5320BEEE3800CE12B3 /* ImageLauncher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		F63E746120BD1204003AB1A2 /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
 		F63E746320BDA03C003AB1A2 /* ModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelHelper.swift; sourceTree = "<group>"; };
 		F63E746520BDA73D003AB1A2 /* XMLParer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMLParer.swift; sourceTree = "<group>"; };
+		F64FAA4F20BE07FE00CE12B3 /* FeedController_search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController_search.swift; sourceTree = "<group>"; };
+		F64FAA5120BE40DC00CE12B3 /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		F64FAA5320BEEE3800CE12B3 /* ImageLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLauncher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				F604499720BCC374000B2914 /* FeedController.swift */,
+				F64FAA4F20BE07FE00CE12B3 /* FeedController_search.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -97,6 +104,7 @@
 			children = (
 				F63E745920BCF77D003AB1A2 /* MainView.swift */,
 				F63E745D20BD0693003AB1A2 /* FeedCell.swift */,
+				F64FAA5120BE40DC00CE12B3 /* TagCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -116,6 +124,7 @@
 			children = (
 				F63E745F20BD112D003AB1A2 /* extension.swift */,
 				F63E746520BDA73D003AB1A2 /* XMLParer.swift */,
+				F64FAA5320BEEE3800CE12B3 /* ImageLauncher.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -199,7 +208,10 @@
 				F604499E20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld in Sources */,
 				F63E746420BDA03C003AB1A2 /* ModelHelper.swift in Sources */,
 				F604499620BCC374000B2914 /* AppDelegate.swift in Sources */,
+				F64FAA5220BE40DC00CE12B3 /* TagCell.swift in Sources */,
+				F64FAA5420BEEE3800CE12B3 /* ImageLauncher.swift in Sources */,
 				F63E746620BDA73D003AB1A2 /* XMLParer.swift in Sources */,
+				F64FAA5020BE07FE00CE12B3 /* FeedController_search.swift in Sources */,
 				F63E745E20BD0693003AB1A2 /* FeedCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,25 +11,46 @@ import MessageUI
 
 /*
  Requirements
- • Use the most recent tools for the platform of your choice (iOS – Swift/Xcode or Android - Java /Android Studio or Android Java/Kotlin/Android Studio)
- • Limit your usage of 3rd party libraries only to the few ones that add a large benefit to the architecture and testability of the project.
- • Flickr url that should be used is: https://www.flickr.com/services/feeds/docs/photos_public
+ • Use the most recent tools for the platform of your choice (iOS – Swift/Xcode or Android - Java /Android Studio or Android Java/Kotlin/Android Studio)            check
+ • Limit your usage of 3rd party libraries only to the few ones that add a large benefit to the architecture and testability of the project.    no library used
+ • Flickr url that should be used is: https://www.flickr.com/services/feeds/docs/photos_public      check
  • Image metadata should be visible for each picture
- • Git should be used as version control and to track the application development
+ • Git should be used as version control and to track the application development                   check
  
  optional
  • Search for images by tag
- • Image caching
- • Order by date taken or date published
- • Save image to the System Gallery
- • Open image in system browser
- • Share picture by email
+ • Image caching                            check
+ • Order by date taken or date published    check
+ • Save image to the System Gallery         check
+ • Open image in system browser             check
+ • Share picture by email                   check
  */
 
 class FeedController: UIViewController {
     var mainView            : MainView?
+    // XML element detector
     var currentElementName  : String?
+    // an array of feeds
     var feeds               : [Feed]?
+    
+    var rightBarButton      : UIButton?
+    var searchBar           : UISearchBar?
+    var tags                : [String]?
+    let tagCell             = "tagCell"
+    var tagCollectionBoardHeightAnchor : NSLayoutConstraint?
+    var currentLineSumOfTags : CGFloat = 0.0
+    var blackView           : UIView?
+    
+    lazy var tagCollectionBoard  : UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.dataSource = self
+        cv.delegate = self
+        cv.register(TagCell.self, forCellWithReuseIdentifier: tagCell)
+        cv.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        
+        return cv
+    }()
     
     lazy var sortMethodSegmentedControl : UISegmentedControl = {
         let sc = UISegmentedControl(items: ["date Taken", "date Published"])
@@ -58,11 +79,15 @@ class FeedController: UIViewController {
     }
 
     func setupNavigationBar() {
-        let rightBarButton = UIBarButtonItem(image: UIImage(named: "magnifier")?.withRenderingMode(.alwaysTemplate), style: .plain, target: self, action: #selector(handleSearchByTag))
-        rightBarButton.tintColor = .white
+        // search button
+        rightBarButton = UIButton()
+        rightBarButton?.setImage(UIImage(named: "magnifier")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        rightBarButton?.addTarget(self, action: #selector(handleSearchByTags), for: .touchUpInside)
+        rightBarButton?.tintColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton!)
         
+        // a segmentController
         navigationItem.titleView = sortMethodSegmentedControl
-        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     func setupMainView() {
@@ -112,6 +137,42 @@ extension FeedController: MFMailComposeViewControllerDelegate {
             self.present(mail, animated: true, completion: nil)
         }
     }
+    
+    func handleTapped(gesture: UITapGestureRecognizer) {
+        if let cell = gesture.view as? FeedCell {
+            if let image = cell.flickrImageView.image, let compressedImageData = UIImageJPEGRepresentation(image, 1) {
+                let source = CGImageSourceCreateWithData(compressedImageData as CFData, nil)
+                let imageMetadata = CGImageSourceCopyPropertiesAtIndex(source!, 0, nil)
+
+                setupImageLauncherWithMetadata(imageMetadata: imageMetadata!, image: image)
+            }
+        }
+    }
+    
+    func setupImageLauncherWithMetadata(imageMetadata: NSDictionary, image: UIImage) {
+        let imageLauncher = ImageLauncher()
+        setupBlackView()
+        imageLauncher.metadata = imageMetadata
+        imageLauncher.blackView = blackView
+        imageLauncher.setupImageLauncher(image: image)
+    }
+    
+    func setupBlackView() {
+        blackView = UIView()
+        blackView?.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        blackView?.isUserInteractionEnabled = true
+        blackView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismissImageLauncher)))
+    }
+    
+    @objc func handleDismissImageLauncher()  {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.blackView?.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: self.view.frame.height)
+        }) { (completed) in
+            if completed {
+                self.blackView?.removeFromSuperview()
+            }
+        }
+    }
 }
 
 // navigation bar
@@ -143,11 +204,6 @@ extension FeedController {
             })
         }
     }
-    
-    @objc func handleSearchByTag() {
-        
-    }
-    
 }
 
 
