@@ -14,6 +14,9 @@ class XMLLauncher: NSObject, XMLParserDelegate {
     weak var feedController : FeedController?
     
     func createXMLParser(urlString: String) {
+        feedController?.feeds = [Feed]()
+        feedController?.mainView?.feedCollectionView.reloadData()
+        
         if let url = URL(string: urlString) {
             if let parser = XMLParser(contentsOf: url) {
                 // delegation to ViewController
@@ -108,6 +111,8 @@ class XMLLauncher: NSObject, XMLParserDelegate {
             let author = Author()
             feed.author = author
             feedController?.feeds?.append(feed)
+            
+            feedController?.mainView?.feedCollectionView.reloadData()
         }
     }
 }

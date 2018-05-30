@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AssetsLibrary
+
 
 class ImageViewWithActivityIndicator: UIImageView {
     let activityIndicator: UIActivityIndicatorView = {
@@ -72,6 +74,12 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].author?.profileImageUrlString)!)
         cell.authorLabel.text = feedController?.feeds![indexPath.item].author?.name
         cell.dateLabel.text = formatDate(dateString: (feedController?.feeds![indexPath.item].flickrDate)!)
+        cell.isUserInteractionEnabled = true
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapped)))
+    }
+    
+    @objc func handleTapped(gesture: UITapGestureRecognizer) {
+        feedController?.handleTapped(gesture: gesture)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
