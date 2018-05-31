@@ -64,6 +64,7 @@ extension FeedController {
                        initialSpringVelocity: 1 ,
                        options: .curveEaseOut   ,
                        animations: {
+                        
             self.transparentView?.frame = CGRect(x: 0                           ,
                                                  y: self.view.frame.height      ,
                                                  width: self.view.frame.width   ,

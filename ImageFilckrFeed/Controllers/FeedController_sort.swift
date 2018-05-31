@@ -8,7 +8,7 @@
 
 import UIKit
 
-// navigation bar
+// sort methods for the toggle button
 
 extension FeedController {
     @objc func handleSortChange() {

@@ -95,7 +95,8 @@ extension FeedController: UISearchBarDelegate {
     }
     
     func addNewLineIfNeed() {
-        let size = estimateWidthAndHeightFor(text: tags![(tags?.count)! - 1], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)])
+        let size = estimateWidthAndHeightFor(text: tags![(tags?.count)! - 1],
+                                             attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)])
         
         // width of current text + extra space for edge + interitemspace
         currentLineSumOfTags                            += size.width + 8 + 4

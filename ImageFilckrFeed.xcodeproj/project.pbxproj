@@ -24,7 +24,7 @@
 		F64FAA5220BE40DC00CE12B3 /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FAA5120BE40DC00CE12B3 /* TagCell.swift */; };
 		F64FAA5420BEEE3800CE12B3 /* ImageMetadataLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64FAA5320BEEE3800CE12B3 /* ImageMetadataLauncher.swift */; };
 		F66CD2FA20BF3C0B003E7214 /* ImageFilckrFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66CD2F920BF3C0B003E7214 /* ImageFilckrFeedUITests.swift */; };
-		F66CD30220BF44E8003E7214 /* FeedController_navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66CD30120BF44E8003E7214 /* FeedController_navigation.swift */; };
+		F66CD30220BF44E8003E7214 /* FeedController_sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66CD30120BF44E8003E7214 /* FeedController_sort.swift */; };
 		F66CD30420BF450B003E7214 /* FeedController_feedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66CD30320BF450B003E7214 /* FeedController_feedCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +60,7 @@
 		F66CD2F720BF3C0B003E7214 /* ImageFilckrFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFilckrFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F66CD2F920BF3C0B003E7214 /* ImageFilckrFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFilckrFeedUITests.swift; sourceTree = "<group>"; };
 		F66CD2FB20BF3C0B003E7214 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F66CD30120BF44E8003E7214 /* FeedController_navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController_navigation.swift; sourceTree = "<group>"; };
+		F66CD30120BF44E8003E7214 /* FeedController_sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController_sort.swift; sourceTree = "<group>"; };
 		F66CD30320BF450B003E7214 /* FeedController_feedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController_feedCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,7 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				F604499720BCC374000B2914 /* FeedController.swift */,
-				F66CD30120BF44E8003E7214 /* FeedController_navigation.swift */,
+				F66CD30120BF44E8003E7214 /* FeedController_sort.swift */,
 				F64FAA4F20BE07FE00CE12B3 /* FeedController_search.swift */,
 				F66CD30320BF450B003E7214 /* FeedController_feedCell.swift */,
 			);
@@ -273,7 +273,7 @@
 				F63E746220BD1204003AB1A2 /* Author.swift in Sources */,
 				F63E745C20BD0226003AB1A2 /* Feed.swift in Sources */,
 				F63E745A20BCF77E003AB1A2 /* MainView.swift in Sources */,
-				F66CD30220BF44E8003E7214 /* FeedController_navigation.swift in Sources */,
+				F66CD30220BF44E8003E7214 /* FeedController_sort.swift in Sources */,
 				F604499E20BCC374000B2914 /* ImageFilckrFeed.xcdatamodeld in Sources */,
 				F66CD30420BF450B003E7214 /* FeedController_feedCell.swift in Sources */,
 				F63E746420BDA03C003AB1A2 /* ModelHelper.swift in Sources */,
