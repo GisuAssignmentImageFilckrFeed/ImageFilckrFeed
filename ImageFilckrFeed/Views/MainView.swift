@@ -19,7 +19,9 @@ class ImageViewWithActivityIndicator: UIImageView {
 }
 
 class MainView: UIView {
+    
     weak var feedController : FeedController?
+    
     let feedCell = "feedCell"
     
     lazy var feedCollectionView : UICollectionView = {
@@ -30,7 +32,6 @@ class MainView: UIView {
         cv.showsVerticalScrollIndicator     = false
         cv.register(FeedCell.self, forCellWithReuseIdentifier: feedCell)
         
-        
         return cv
     }()
     
@@ -38,7 +39,13 @@ class MainView: UIView {
         super.init(frame: frame)
         
         addSubview(feedCollectionView)
-        setupConstraintsForView(view: feedCollectionView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 1, reateOfHeight: 1)
+        setupConstraintsForView(view: feedCollectionView,
+                                customCenterXAnchor: centerXAnchor  ,
+                                customCenterYAnchor: centerYAnchor  ,
+                                customWidthAnchor: widthAnchor      ,
+                                customHeightAnchor: heightAnchor    ,
+                                rateOfWidth: 1                      ,
+                                reateOfHeight: 1)
     }
     
     required init?(coder aDecoder: NSCoder) {

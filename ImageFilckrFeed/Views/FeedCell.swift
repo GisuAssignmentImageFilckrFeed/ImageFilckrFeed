@@ -95,46 +95,6 @@ class FeedCell: UICollectionViewCell {
         return label
     }()
     
-    fileprivate func setupConstraintsForButton(button: UIButton                                         ,
-                                               customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>     ,
-                                               customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>   ,
-                                               topConstant: CGFloat,
-                                               rightConstant: CGFloat) {
-        button.translatesAutoresizingMaskIntoConstraints = false
-        [
-            button.topAnchor.constraint(equalTo: customTopAnchor, constant: topConstant),
-            button.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
-            button.widthAnchor.constraint(equalToConstant: 24),
-            button.heightAnchor.constraint(equalToConstant: 24)
-        ].forEach{ $0.isActive = true }
-    }
-    
-    fileprivate func setupConstraintsForLabel(label: UILabel                                            ,
-                                              customCenterXAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
-                                              customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>    ,
-                                              centerXConstant: CGFloat                                  ,
-                                              rightConstant: CGFloat) {
-        label.translatesAutoresizingMaskIntoConstraints = false
-        [
-            label.centerYAnchor.constraint(equalTo: customCenterXAnchor, constant: centerXConstant),
-            label.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
-            label.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.7),
-            label.heightAnchor.constraint(equalToConstant: 30)
-        ].forEach{ $0.isActive = true }
-    }
-    
-    fileprivate func setupConstraintsForContainer(view: UIView                                          ,
-                                                  customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
-                                                  rateOfHeight: CGFloat) {
-        view.translatesAutoresizingMaskIntoConstraints = false
-        [
-            view.topAnchor.constraint(equalTo: customTopAnchor),
-            view.leftAnchor.constraint(equalTo: leftAnchor),
-            view.widthAnchor.constraint(equalTo: widthAnchor),
-            view.heightAnchor.constraint(equalTo: heightAnchor, multiplier: rateOfHeight)
-            ].forEach{ $0.isActive = true }
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -196,5 +156,49 @@ class FeedCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// setup constraints
+
+extension FeedCell {
+    fileprivate func setupConstraintsForButton(button: UIButton                                         ,
+                                               customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>     ,
+                                               customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>   ,
+                                               topConstant: CGFloat,
+                                               rightConstant: CGFloat) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        [
+            button.topAnchor.constraint(equalTo: customTopAnchor, constant: topConstant),
+            button.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
+            button.widthAnchor.constraint(equalToConstant: 24),
+            button.heightAnchor.constraint(equalToConstant: 24)
+            ].forEach{ $0.isActive = true }
+    }
+    
+    fileprivate func setupConstraintsForLabel(label: UILabel                                            ,
+                                              customCenterXAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
+                                              customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>    ,
+                                              centerXConstant: CGFloat                                  ,
+                                              rightConstant: CGFloat) {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        [
+            label.centerYAnchor.constraint(equalTo: customCenterXAnchor, constant: centerXConstant),
+            label.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
+            label.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.7),
+            label.heightAnchor.constraint(equalToConstant: 30)
+            ].forEach{ $0.isActive = true }
+    }
+    
+    fileprivate func setupConstraintsForContainer(view: UIView                                          ,
+                                                  customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
+                                                  rateOfHeight: CGFloat) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        [
+            view.topAnchor.constraint(equalTo: customTopAnchor),
+            view.leftAnchor.constraint(equalTo: leftAnchor),
+            view.widthAnchor.constraint(equalTo: widthAnchor),
+            view.heightAnchor.constraint(equalTo: heightAnchor, multiplier: rateOfHeight)
+            ].forEach{ $0.isActive = true }
     }
 }
