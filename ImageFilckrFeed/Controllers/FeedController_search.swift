@@ -11,19 +11,20 @@ import UIKit
 extension FeedController: UISearchBarDelegate {
     @objc func handleSearchByTags() {
         setupSearch()
+        
         navigationItem.titleView = searchBar
     }
     
     func setupSearch() {
-        switchButton(buttonType: "dismiss")
+        switchButtonTo(buttonType: "dismiss")
         setupSearchBar()
         setupTagBoard()
     }
     
     func setupSearchBar() {
-        searchBar = UISearchBar()
-        searchBar?.delegate = self
-        searchBar?.placeholder = "Add Tags"
+        searchBar               = UISearchBar()
+        searchBar?.delegate     = self
+        searchBar?.placeholder  = "Add Tags"
     }
     
     func setupTagBoard() {
@@ -41,18 +42,19 @@ extension FeedController: UISearchBarDelegate {
     }
     
     func clearTagBoard() {
-        tags = [String]()
+        tags                = [String]()
         tagCollectionBoard.reloadData()
     }
     
     @objc func handleDismissSearchBar() {
         searchBar?.removeFromSuperview()
         tagCollectionBoard.removeFromSuperview()
-        switchButton(buttonType: "search")
+        switchButtonTo(buttonType: "search")
+        
         navigationItem.titleView = sortMethodSegmentedControl
     }
     
-    func switchButton(buttonType: String) {
+    func switchButtonTo(buttonType: String) {
         if buttonType == "search" {
             self.rightBarButton?.setImage(UIImage(named: "magnifier")?.withRenderingMode(.alwaysTemplate), for: .normal)
             self.rightBarButton?.addTarget(self, action: #selector(self.handleSearchByTags), for: .touchUpInside)
@@ -64,15 +66,15 @@ extension FeedController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.last == " " {
-            let index = searchText.index(searchText.startIndex, offsetBy: searchText.count - 1)
-            let typedWord =  searchText[..<index]
+            let index           = searchText.index(searchText.startIndex, offsetBy: searchText.count - 1)
+            let typedWord       =  searchText[..<index]
             // save a tag
             tags?.append(String(typedWord))
             addNewLineIfNeed()
             // clear textfield
-            searchBar.text = ""
-            
+            searchBar.text      = ""
             tagCollectionBoard.reloadData()
+            
             fetchByTags()
         }
     }
@@ -96,11 +98,11 @@ extension FeedController: UISearchBarDelegate {
         let size = estimateWidthAndHeightFor(text: tags![(tags?.count)! - 1], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)])
         
         // width of current text + extra space for edge + interitemspace
-        currentLineSumOfTags += size.width + 8 + 4
+        currentLineSumOfTags                            += size.width + 8 + 4
         
         if currentLineSumOfTags > view.frame.width {
-            tagCollectionBoardHeightAnchor?.constant += 22
-            currentLineSumOfTags = size.width + 8
+            tagCollectionBoardHeightAnchor?.constant    += 22
+            currentLineSumOfTags                        = size.width + 8
         }
     }
 }
@@ -117,16 +119,22 @@ extension FeedController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tagCell, for: indexPath) as! TagCell
-        cell.backgroundColor = .orange
-        let attributedString = NSAttributedString(string: tags![indexPath.item], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: UIColor.white])
-        cell.tagLabel.attributedText = attributedString
-        cell.layer.cornerRadius = 11
+        setupCell(cell: cell, indexPath: indexPath)
         
         return cell
     }
     
+    func setupCell(cell: TagCell, indexPath: IndexPath) {
+        cell.backgroundColor = .orange
+        let attributedString = NSAttributedString(string: tags![indexPath.item], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: UIColor.white])
+        cell.tagLabel.attributedText    = attributedString
+        cell.layer.cornerRadius         = 11
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = estimateWidthAndHeightFor(text: tags![indexPath.item], attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: UIColor.white])
+        // estimate size of text
+        let size = estimateWidthAndHeightFor(text: tags![indexPath.item],
+                                             attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18), NSAttributedStringKey.foregroundColor: UIColor.white])
         
         return CGSize(width: size.width + 8, height: 22)
     }

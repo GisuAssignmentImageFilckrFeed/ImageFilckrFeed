@@ -14,10 +14,10 @@ let imageCache = NSCache<NSString, UIImage>()
 
 extension UIImageView {
     func loadImageUsingCacheWithUrlString(urlString: String) {
-        //no flshing image for the next list
+        // no flshing image for the next list
         self.image = nil
         
-        //check cache for image first
+        // check cache for image first
         if let cachedImage = imageCache.object(forKey: (urlString as NSString)){
             self.deleteActivityIndicator()
             self.image = cachedImage
@@ -29,7 +29,7 @@ extension UIImageView {
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request){
             (data, response, error) in
-            //download hit an error so lets return out
+            // download hit an error so lets return out
             if error != nil{
                 print(error!)
                 return
@@ -67,7 +67,7 @@ extension UIView {
     }
     
     func setupActivityIndicator<T>(cell: T) {
-        if let flickrImageView = (cell as? FeedCell)?.flickrImageView {
+        if let flickrImageView = (cell as? FeedCell)?.contentImageView {
             flickrImageView.addSubview(flickrImageView.activityIndicator)
             flickrImageView.activityIndicator.centerYAnchor.constraint(equalTo: flickrImageView.centerYAnchor).isActive = true
             flickrImageView.activityIndicator.centerXAnchor.constraint(equalTo: flickrImageView.centerXAnchor).isActive = true
@@ -99,6 +99,19 @@ extension UIViewController {
         return (text as NSString).size(withAttributes: attributes)
     }
 }
+
+
+public func setupConstraintsForView(view: UIView, customCenterXAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>, customCenterYAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>, customWidthAnchor: NSLayoutAnchor<NSLayoutDimension>, customHeightAnchor: NSLayoutAnchor<NSLayoutDimension>, rateOfWidth: CGFloat, reateOfHeight: CGFloat) {
+    view.translatesAutoresizingMaskIntoConstraints = false
+    [
+        view.centerXAnchor.constraint(equalTo: customCenterXAnchor),
+        view.centerYAnchor.constraint(equalTo: customCenterYAnchor),
+        view.widthAnchor.constraint(equalTo: customWidthAnchor as! NSLayoutDimension, multiplier: rateOfWidth),
+        view.heightAnchor.constraint(equalTo: customHeightAnchor as! NSLayoutDimension, multiplier: reateOfHeight)
+        ].forEach{ $0.isActive = true }
+}
+
+
 
 
 

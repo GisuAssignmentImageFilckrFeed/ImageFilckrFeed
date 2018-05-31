@@ -29,7 +29,6 @@ extension ImageMetadataBoard: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.textColor = .white
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-        
     }
     
     func formMetadata(cell: UITableViewCell, indexPath: IndexPath) {
@@ -72,12 +71,12 @@ class ImageMetadataBoard: UIView {
     
     lazy var tableView : UITableView = {
         let tv = UITableView()
-        tv.delegate = self
-        tv.dataSource = self
         tv.register(UITableViewCell.self, forCellReuseIdentifier: imageMetadataCell)
-        tv.backgroundColor = .clear
-        tv.alpha = 0.7
-        tv.separatorStyle = .none
+        tv.delegate                     = self
+        tv.dataSource                   = self
+        tv.backgroundColor              = .clear
+        tv.alpha                        = 0.7
+        tv.separatorStyle               = .none
         
         return tv
     }()
@@ -86,23 +85,9 @@ class ImageMetadataBoard: UIView {
         super.init(frame: frame)
         
         addSubview(flickrImageView)
-        flickrImageView.translatesAutoresizingMaskIntoConstraints = false
-        [
-            flickrImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            flickrImageView.topAnchor.constraint(equalTo: topAnchor),
-            flickrImageView.widthAnchor.constraint(equalTo: widthAnchor),
-            flickrImageView.heightAnchor.constraint(equalTo: heightAnchor)
-        ].forEach{ $0.isActive = true }
-        
+        setupConstraintsForView(view: flickrImageView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 1, reateOfHeight: 1)
         flickrImageView.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        [
-            tableView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            tableView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            tableView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
-            tableView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8)
-        ].forEach{ $0.isActive = true }
-        
+        setupConstraintsForView(view: tableView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 0.8, reateOfHeight: 0.8)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -110,38 +95,41 @@ class ImageMetadataBoard: UIView {
     }
 }
 
-class ImageLauncher: NSObject {
-    var blackView : UIView?
-    var metadata    : NSDictionary?
+class ImageMetadataLauncher: NSObject {
+    var transparentView : UIView?
+    var metadata        : NSDictionary?
     
-    func setupImageLauncher(image: UIImage) {
+    func setupImageMetadataLauncher(image: UIImage) {
         if let keywindow = UIApplication.shared.keyWindow {
-            keywindow.addSubview(blackView!)
+            keywindow.addSubview(transparentView!)
             setupImageMetadataBoard(image: image)
             showupImageLauncherWithAnimation(keywindow: keywindow)
         }
     }
     
     func showupImageLauncherWithAnimation(keywindow: UIView) {
-        blackView?.frame = CGRect(x: 0, y: keywindow.frame.height, width: keywindow.frame.width, height: keywindow.frame.height)
+        transparentView?.frame = CGRect(x: 0                        ,
+                                        y: keywindow.frame.height   ,
+                                        width: keywindow.frame.width,
+                                        height: keywindow.frame.height)
         
         UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.blackView?.frame = keywindow.frame
+            self.transparentView?.frame = keywindow.frame
         }, completion: nil)
     }
     
     func setupImageMetadataBoard(image: UIImage) {
-        let imageMetadataBoard = ImageMetadataBoard()
-        imageMetadataBoard.metadata = metadata
-        imageMetadataBoard.flickrImageView.image = image
-        blackView?.addSubview(imageMetadataBoard)
-        imageMetadataBoard.translatesAutoresizingMaskIntoConstraints = false
-        [
-            imageMetadataBoard.centerXAnchor.constraint(equalTo: (blackView?.centerXAnchor)!),
-            imageMetadataBoard.centerYAnchor.constraint(equalTo: (blackView?.centerYAnchor)!),
-            imageMetadataBoard.widthAnchor.constraint(equalTo: (blackView?.widthAnchor)!, multiplier: 0.8),
-            imageMetadataBoard.heightAnchor.constraint(equalTo: (blackView?.widthAnchor)!, multiplier: 0.8)
-            
-        ].forEach{ $0.isActive = true }
+        let imageMetadataBoard                      = ImageMetadataBoard()
+        imageMetadataBoard.metadata                 = metadata
+        imageMetadataBoard.flickrImageView.image    = image
+        transparentView?.addSubview(imageMetadataBoard)
+        setupConstraintsForView(view: imageMetadataBoard                                ,
+                                customCenterXAnchor: (transparentView?.centerXAnchor)!  ,
+                                customCenterYAnchor: (transparentView?.centerYAnchor)!  ,
+                                customWidthAnchor: (transparentView?.widthAnchor)!      ,
+                                customHeightAnchor: (transparentView?.widthAnchor)!     ,
+                                rateOfWidth: 0.8                                        ,
+                                reateOfHeight: 0.8                                      )
     }
 }
+

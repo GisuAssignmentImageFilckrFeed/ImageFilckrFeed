@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import AssetsLibrary
-
 
 class ImageViewWithActivityIndicator: UIImageView {
     let activityIndicator: UIActivityIndicatorView = {
@@ -25,27 +23,22 @@ class MainView: UIView {
     let feedCell = "feedCell"
     
     lazy var feedCollectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.dataSource = self
-        cv.delegate = self
+        let layout                          = UICollectionViewFlowLayout()
+        let cv                              = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.dataSource                       = self
+        cv.delegate                         = self
+        cv.showsVerticalScrollIndicator     = false
         cv.register(FeedCell.self, forCellWithReuseIdentifier: feedCell)
-        cv.showsVerticalScrollIndicator = false
+        
         
         return cv
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(feedCollectionView)
-        feedCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        [
-            feedCollectionView.topAnchor.constraint(equalTo: topAnchor),
-            feedCollectionView.leftAnchor.constraint(equalTo: leftAnchor),
-            feedCollectionView.widthAnchor.constraint(equalTo: widthAnchor),
-            feedCollectionView.heightAnchor.constraint(equalTo: heightAnchor)
-        ].forEach{ $0.isActive = true }
         
+        addSubview(feedCollectionView)
+        setupConstraintsForView(view: feedCollectionView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 1, reateOfHeight: 1)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,19 +60,19 @@ extension MainView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func setupCell(cell: FeedCell, indexPath: IndexPath) {
-        cell.feedController = feedController
-        cell.feed = feedController?.feeds![indexPath.item]
-        cell.profileImageView.layer.cornerRadius = self.frame.width * 0.25 / 4
-        cell.flickrImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].imageUrlString)!)
+        cell.feedController                         = feedController
+        cell.feed                                   = feedController?.feeds![indexPath.item]
+        cell.profileImageView.layer.cornerRadius    = self.frame.width * 0.25 / 4
+        cell.contentImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].imageUrlString)!)
         cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: (feedController?.feeds![indexPath.item].author?.profileImageUrlString)!)
-        cell.authorLabel.text = feedController?.feeds![indexPath.item].author?.name
-        cell.dateLabel.text = formatDate(dateString: (feedController?.feeds![indexPath.item].flickrDate)!)
-        cell.isUserInteractionEnabled = true
+        cell.authorLabel.text                       = feedController?.feeds![indexPath.item].author?.name
+        cell.dateLabel.text                         = formatDate(dateString: (feedController?.feeds![indexPath.item].flickrDate)!)
+        cell.isUserInteractionEnabled               = true
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapped)))
     }
     
     @objc func handleTapped(gesture: UITapGestureRecognizer) {
-        feedController?.handleTapped(gesture: gesture)
+        feedController?.handleImageTapped(gesture: gesture)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

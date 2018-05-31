@@ -9,7 +9,6 @@
 import UIKit
 
 class XMLLauncher: NSObject, XMLParserDelegate {
-    
     var currentElementName  : String?
     weak var feedController : FeedController?
     
@@ -41,7 +40,7 @@ class XMLLauncher: NSObject, XMLParserDelegate {
             }
         }
         
-        //fetch author
+        // fetch author
         if elementName == "author" {
             clearTempAuthor()
         }
@@ -65,37 +64,38 @@ class XMLLauncher: NSObject, XMLParserDelegate {
         TempAuthor.profileImageUrlString     = ""
     }
     
+    // parse data
     public func parser(_ parser: XMLParser, foundCharacters string: String) {
         let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         
         if data.count != 0 {
             switch currentElementName {
             case "title":
-                TempFeed.title = data
+                TempFeed.title          = data
                 fallthrough
             case "id":
-                TempFeed.id = data
+                TempFeed.id             = data
                 fallthrough
             case "published":
-                TempFeed.publishedDate = data
+                TempFeed.publishedDate  = data
                 fallthrough
             case "updated":
-                TempFeed.updatedDate = data
+                TempFeed.updatedDate    = data
                 fallthrough
             case "flickr:date_taken":
-                TempFeed.flickrDate = data
+                TempFeed.flickrDate     = data
                 fallthrough
             case "dc:date.Taken":
-                TempFeed.dateTaken = data
+                TempFeed.dateTaken      = data
                 fallthrough
             case "name":
-                TempAuthor.name = data
+                TempAuthor.name         = data
                 fallthrough
             case "uri":
-                TempAuthor.urlString = data
+                TempAuthor.urlString    = data
                 fallthrough
             case "flickr:nsid":
-                TempAuthor.id = data
+                TempAuthor.id           = data
                 fallthrough
             case "flickr:buddyicon":
                 TempAuthor.profileImageUrlString = data
@@ -107,11 +107,12 @@ class XMLLauncher: NSObject, XMLParserDelegate {
     
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "entry" {
-            let feed = Feed()
-            let author = Author()
+            let feed    = Feed()
+            let author  = Author()
             feed.author = author
             feedController?.feeds?.append(feed)
             
+            // update UI
             feedController?.mainView?.feedCollectionView.reloadData()
         }
     }
