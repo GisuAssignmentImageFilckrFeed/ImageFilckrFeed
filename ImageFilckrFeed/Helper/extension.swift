@@ -29,7 +29,7 @@ extension UIImageView {
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request){
             (data, response, error) in
-            // download hit an error so lets return out
+            
             if error != nil{
                 print(error!)
                 return
@@ -101,14 +101,20 @@ extension UIViewController {
 }
 
 
-public func setupConstraintsForView(view: UIView, customCenterXAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>, customCenterYAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>, customWidthAnchor: NSLayoutAnchor<NSLayoutDimension>, customHeightAnchor: NSLayoutAnchor<NSLayoutDimension>, rateOfWidth: CGFloat, reateOfHeight: CGFloat) {
+public func setupConstraintsForView(view: UIView,
+                                    customCenterXAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>,
+                                    customCenterYAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>,
+                                    customWidthAnchor: NSLayoutAnchor<NSLayoutDimension>    ,
+                                    customHeightAnchor: NSLayoutAnchor<NSLayoutDimension>   ,
+                                    rateOfWidth: CGFloat                                    ,
+                                    reateOfHeight: CGFloat) {
     view.translatesAutoresizingMaskIntoConstraints = false
     [
         view.centerXAnchor.constraint(equalTo: customCenterXAnchor),
         view.centerYAnchor.constraint(equalTo: customCenterYAnchor),
         view.widthAnchor.constraint(equalTo: customWidthAnchor as! NSLayoutDimension, multiplier: rateOfWidth),
         view.heightAnchor.constraint(equalTo: customHeightAnchor as! NSLayoutDimension, multiplier: reateOfHeight)
-        ].forEach{ $0.isActive = true }
+    ].forEach{ $0.isActive = true }
 }
 
 
