@@ -13,12 +13,12 @@ class XMLLauncher: NSObject, XMLParserDelegate {
     weak var feedController : FeedController?
     
     func createXMLParser(urlString: String) {
+        // clean for reuse
         feedController?.feeds = [Feed]()
         feedController?.mainView?.feedCollectionView.reloadData()
         
         if let url = URL(string: urlString) {
             if let parser = XMLParser(contentsOf: url) {
-                // delegation to ViewController
                 parser.delegate = self
                 parser.parse()
             }
@@ -33,7 +33,7 @@ class XMLLauncher: NSObject, XMLParserDelegate {
             clearTempFeed()
         }
         
-        // get image url
+        // retrieve image url
         if elementName == "link" {
             if let rel = attributeDict["rel"], rel == "enclosure" , let imageLink = attributeDict["href"]{
                 TempFeed.imageUrlString = imageLink
@@ -72,34 +72,34 @@ class XMLLauncher: NSObject, XMLParserDelegate {
             switch currentElementName {
             case "title":
                 TempFeed.title          = data
-                fallthrough
+                break
             case "id":
                 TempFeed.id             = data
-                fallthrough
+                break
             case "published":
                 TempFeed.publishedDate  = data
-                fallthrough
+                break
             case "updated":
                 TempFeed.updatedDate    = data
-                fallthrough
+                break
             case "flickr:date_taken":
                 TempFeed.flickrDate     = data
-                fallthrough
+                break
             case "dc:date.Taken":
                 TempFeed.dateTaken      = data
-                fallthrough
+                break
             case "name":
                 TempAuthor.name         = data
-                fallthrough
+                break
             case "uri":
                 TempAuthor.urlString    = data
-                fallthrough
+                break
             case "flickr:nsid":
                 TempAuthor.id           = data
-                fallthrough
+                break
             case "flickr:buddyicon":
                 TempAuthor.profileImageUrlString = data
-                fallthrough
+                break
             default: break
             }
         }
@@ -107,6 +107,7 @@ class XMLLauncher: NSObject, XMLParserDelegate {
     
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "entry" {
+            // create feed obj and store in feed array
             let feed    = Feed()
             let author  = Author()
             feed.author = author
