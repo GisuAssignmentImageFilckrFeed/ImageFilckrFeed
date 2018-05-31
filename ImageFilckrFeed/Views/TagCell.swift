@@ -9,6 +9,7 @@
 import UIKit
 
 class TagCell: UICollectionViewCell {
+    
     let tagLabel : UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -20,14 +21,13 @@ class TagCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(tagLabel)
-        tagLabel.translatesAutoresizingMaskIntoConstraints = false
-        [
-            tagLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            tagLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            tagLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            tagLabel.heightAnchor.constraint(equalTo: heightAnchor)
-        ].forEach{ $0.isActive = true }
-        
+        setupConstraintsForView(view: tagLabel                      ,
+                                customCenterXAnchor: centerXAnchor  ,
+                                customCenterYAnchor: centerYAnchor  ,
+                                customWidthAnchor: widthAnchor      ,
+                                customHeightAnchor: heightAnchor    ,
+                                rateOfWidth: 1                      ,
+                                reateOfHeight: 1)
     }
     
     required init?(coder aDecoder: NSCoder) {

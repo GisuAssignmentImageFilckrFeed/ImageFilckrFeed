@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F66CD2F620BF3C0B003E7214"
+               BuildableName = "ImageFilckrFeedUITests.xctest"
+               BlueprintName = "ImageFilckrFeedUITests"
+               ReferencedContainer = "container:ImageFilckrFeed.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

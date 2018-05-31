@@ -16,14 +16,14 @@ class FeedCell: UICollectionViewCell {
     lazy var saveButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "download")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
         button.addTarget(self, action: #selector(handleDownloadImage), for: .touchUpInside)
+        button.tintColor        = .white
         
         return button
     }()
     
     @objc func handleDownloadImage() {
-        feedController?.saveImageToLibrary(flickrImageView: flickrImageView)
+        feedController?.saveImageToLibrary(flickrImageView: contentImageView)
     }
     
     lazy var openBroswerButton : UIButton = {
@@ -37,28 +37,28 @@ class FeedCell: UICollectionViewCell {
     @objc func handleOpenInbroswer() {
         if let urlString = feed?.imageUrlString {
             feedController?.openSelectedImageInbrowser(urlString: urlString)
-        } else {
-            feedController?.alertMessage(message: "Cannot find the selected Url", rootController: feedController!)
         }
     }
     
     lazy var shareButton : UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "share")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .white
         button.addTarget(self, action: #selector(handleShareByEmail), for: .touchUpInside)
+        button.tintColor        = .white
         
         return button
     }()
     
     @objc func handleShareByEmail() {
-        feedController?.sendPictureByEmail(flickrImageView: flickrImageView)
+        if let image = contentImageView.image {
+            feedController?.sendPictureByEmailWith(image: image)
+        }
     }
     
-    let flickrImageView : ImageViewWithActivityIndicator = {
+    let contentImageView : ImageViewWithActivityIndicator = {
         let imageView = ImageViewWithActivityIndicator()
-        imageView.backgroundColor = .gray
-        imageView.image = UIImage(named: "moviePost2")
+        imageView.backgroundColor   = .gray
+        imageView.image             = UIImage(named: "moviePost2")
         
         return imageView
     }()
@@ -72,17 +72,15 @@ class FeedCell: UICollectionViewCell {
     
     let profileImageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .blue
-        imageView.image = UIImage(named: "moviePost2")
-        imageView.clipsToBounds = true
+        imageView.backgroundColor   = .white
+        imageView.clipsToBounds     = true
         
         return imageView
     }()
     
     let dateLabel : UILabel = {
         let label = UILabel()
-        label.text = "Mar 2018"
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font          = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
         
         return label
@@ -90,61 +88,86 @@ class FeedCell: UICollectionViewCell {
     
     let authorLabel : UILabel = {
         let label = UILabel()
-        label.text = "Gisu Kim"
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font          = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .center
         label.numberOfLines = 2
         
         return label
     }()
     
+    fileprivate func setupConstraintsForButton(button: UIButton                                         ,
+                                               customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>     ,
+                                               customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>   ,
+                                               topConstant: CGFloat,
+                                               rightConstant: CGFloat) {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        [
+            button.topAnchor.constraint(equalTo: customTopAnchor, constant: topConstant),
+            button.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
+            button.widthAnchor.constraint(equalToConstant: 24),
+            button.heightAnchor.constraint(equalToConstant: 24)
+        ].forEach{ $0.isActive = true }
+    }
+    
+    fileprivate func setupConstraintsForLabel(label: UILabel                                            ,
+                                              customCenterXAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
+                                              customRightAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>    ,
+                                              centerXConstant: CGFloat                                  ,
+                                              rightConstant: CGFloat) {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        [
+            label.centerYAnchor.constraint(equalTo: customCenterXAnchor, constant: centerXConstant),
+            label.rightAnchor.constraint(equalTo: customRightAnchor, constant: rightConstant),
+            label.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.7),
+            label.heightAnchor.constraint(equalToConstant: 30)
+        ].forEach{ $0.isActive = true }
+    }
+    
+    fileprivate func setupConstraintsForContainer(view: UIView                                          ,
+                                                  customTopAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>  ,
+                                                  rateOfHeight: CGFloat) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        [
+            view.topAnchor.constraint(equalTo: customTopAnchor),
+            view.leftAnchor.constraint(equalTo: leftAnchor),
+            view.widthAnchor.constraint(equalTo: widthAnchor),
+            view.heightAnchor.constraint(equalTo: heightAnchor, multiplier: rateOfHeight)
+            ].forEach{ $0.isActive = true }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(flickrImageView)
-        flickrImageView.translatesAutoresizingMaskIntoConstraints = false
-        [
-            flickrImageView.topAnchor.constraint(equalTo: topAnchor),
-            flickrImageView.leftAnchor.constraint(equalTo: leftAnchor),
-            flickrImageView.widthAnchor.constraint(equalTo: widthAnchor),
-            flickrImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.75)
-        ].forEach{ $0.isActive = true }
-        
+        addSubview(contentImageView)
+        setupConstraintsForContainer(view: contentImageView     ,
+                                     customTopAnchor: topAnchor ,
+                                     rateOfHeight: 0.75)
+
         addSubview(saveButton)
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        [
-            saveButton.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            saveButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
-            saveButton.widthAnchor.constraint(equalToConstant: 24),
-            saveButton.heightAnchor.constraint(equalToConstant: 24)
-        ].forEach{ $0.isActive = true }
+        setupConstraintsForButton(button: saveButton            ,
+                                  customTopAnchor: topAnchor    ,
+                                  customRightAnchor: rightAnchor,
+                                  topConstant: 8                ,
+                                  rightConstant: -16)
         
         addSubview(openBroswerButton)
-        openBroswerButton.translatesAutoresizingMaskIntoConstraints = false
-        [
-            openBroswerButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 8),
-            openBroswerButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -14),
-            openBroswerButton.widthAnchor.constraint(equalToConstant: 24),
-            openBroswerButton.heightAnchor.constraint(equalToConstant: 24)
-        ].forEach{ $0.isActive = true }
+        setupConstraintsForButton(button: openBroswerButton                 ,
+                                  customTopAnchor: saveButton.bottomAnchor  ,
+                                  customRightAnchor: rightAnchor            ,
+                                  topConstant: 8                            ,
+                                  rightConstant: -16)
         
         addSubview(shareButton)
-        shareButton.translatesAutoresizingMaskIntoConstraints = false
-        [
-            shareButton.topAnchor.constraint(equalTo: openBroswerButton.bottomAnchor, constant: 8),
-            shareButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -14),
-            shareButton.widthAnchor.constraint(equalToConstant: 24),
-            shareButton.heightAnchor.constraint(equalToConstant: 24)
-        ].forEach{ $0.isActive = true }
+        setupConstraintsForButton(button: shareButton                               ,
+                                  customTopAnchor: openBroswerButton.bottomAnchor   ,
+                                  customRightAnchor: rightAnchor                    ,
+                                  topConstant: 8                                    ,
+                                  rightConstant: -14)
         
         addSubview(containerView)
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        [
-            containerView.topAnchor.constraint(equalTo: flickrImageView.bottomAnchor),
-            containerView.leftAnchor.constraint(equalTo: leftAnchor),
-            containerView.widthAnchor.constraint(equalTo: widthAnchor),
-            containerView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25)
-        ].forEach{ $0.isActive = true }
+        setupConstraintsForContainer(view: containerView                            ,
+                                     customTopAnchor: contentImageView.bottomAnchor ,
+                                     rateOfHeight: 0.25)
         
         containerView.addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -153,26 +176,22 @@ class FeedCell: UICollectionViewCell {
             profileImageView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -8),
             profileImageView.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.25),
             profileImageView.heightAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.25)
-            ].forEach{ $0.isActive = true }
+        ].forEach{ $0.isActive = true }
         
         containerView.addSubview(authorLabel)
-        authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        [
-            authorLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor, constant: -15),
-            authorLabel.rightAnchor.constraint(equalTo: profileImageView.leftAnchor, constant: -2),
-            authorLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.7),
-            authorLabel.heightAnchor.constraint(equalToConstant: 30)
-        ].forEach{ $0.isActive = true }
-        
+        setupConstraintsForLabel(label: authorLabel                                 ,
+                                 customCenterXAnchor: containerView.centerYAnchor   ,
+                                 customRightAnchor: profileImageView.leftAnchor     ,
+                                 centerXConstant: -15                               ,
+                                 rightConstant: -2)
+
         containerView.addSubview(dateLabel)
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        [
-            dateLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor, constant: 15),
-            dateLabel.rightAnchor.constraint(equalTo: profileImageView.leftAnchor, constant: -2),
-            dateLabel.widthAnchor.constraint(equalTo: containerView.widthAnchor, multiplier: 0.7),
-            dateLabel.heightAnchor.constraint(equalToConstant: 30)
-        ].forEach{ $0.isActive = true }
-        
+        setupConstraintsForLabel(label: dateLabel                                   ,
+                                 customCenterXAnchor: containerView.centerYAnchor   ,
+                                 customRightAnchor: profileImageView.leftAnchor     ,
+                                 centerXConstant: 15                                ,
+                                 rightConstant: -2)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
