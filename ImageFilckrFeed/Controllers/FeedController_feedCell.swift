@@ -58,7 +58,12 @@ extension FeedController {
     }
     
     @objc func handleDismissImageLauncher()  {
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3        ,
+                       delay: 0                 ,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1 ,
+                       options: .curveEaseOut   ,
+                       animations: {
             self.transparentView?.frame = CGRect(x: 0                           ,
                                                  y: self.view.frame.height      ,
                                                  width: self.view.frame.width   ,

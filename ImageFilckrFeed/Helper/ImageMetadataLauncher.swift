@@ -20,18 +20,18 @@ extension ImageMetadataBoard: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: imageMetadataCell, for: indexPath)
         setupCell(cell: cell)
-        formMetadata(cell: cell, indexPath: indexPath)
+        formatMetadata(cell: cell, indexPath: indexPath)
         
         return cell
     }
     
     func setupCell(cell: UITableViewCell) {
-        cell.textLabel?.textAlignment = .center
-        cell.textLabel?.textColor = .white
-        cell.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        cell.textLabel?.textAlignment   = .center
+        cell.textLabel?.textColor       = .white
+        cell.backgroundColor            = UIColor.black.withAlphaComponent(0.7)
     }
     
-    func formMetadata(cell: UITableViewCell, indexPath: IndexPath) {
+    func formatMetadata(cell: UITableViewCell, indexPath: IndexPath) {
         if indexPath.row == 0 {
             if let demension = metadata!["{Exif}"] as? NSDictionary {
                 if let pixelXDimension = demension["PixelXDimension"], let pixelYDimension = demension["PixelYDimension"] {
@@ -85,9 +85,22 @@ class ImageMetadataBoard: UIView {
         super.init(frame: frame)
         
         addSubview(flickrImageView)
-        setupConstraintsForView(view: flickrImageView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 1, reateOfHeight: 1)
+        setupConstraintsForView(view: flickrImageView,
+                                customCenterXAnchor: centerXAnchor  ,
+                                customCenterYAnchor: centerYAnchor  ,
+                                customWidthAnchor: widthAnchor      ,
+                                customHeightAnchor: heightAnchor    ,
+                                rateOfWidth: 1                      ,
+                                reateOfHeight: 1)
+        
         flickrImageView.addSubview(tableView)
-        setupConstraintsForView(view: tableView, customCenterXAnchor: centerXAnchor, customCenterYAnchor: centerYAnchor, customWidthAnchor: widthAnchor, customHeightAnchor: heightAnchor, rateOfWidth: 0.8, reateOfHeight: 0.8)
+        setupConstraintsForView(view: tableView,
+                                customCenterXAnchor: centerXAnchor  ,
+                                customCenterYAnchor: centerYAnchor  ,
+                                customWidthAnchor: widthAnchor      ,
+                                customHeightAnchor: heightAnchor    ,
+                                rateOfWidth: 0.8                    ,
+                                reateOfHeight: 0.8)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -113,7 +126,12 @@ class ImageMetadataLauncher: NSObject {
                                         width: keywindow.frame.width,
                                         height: keywindow.frame.height)
         
-        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3        ,
+                       delay: 0                 ,
+                       usingSpringWithDamping: 1,
+                       initialSpringVelocity: 1 ,
+                       options: .curveEaseOut   ,
+                       animations: {
             self.transparentView?.frame = keywindow.frame
         }, completion: nil)
     }
